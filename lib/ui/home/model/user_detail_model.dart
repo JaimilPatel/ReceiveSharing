@@ -1,5 +1,6 @@
 class UserDetailModel {
   String? name;
   String? email;
-  UserDetailModel({this.name, this.email});
+  bool isSelected;
+  UserDetailModel({this.name, this.email, this.isSelected = false});
 }

@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:receivesharing/constants/app_constants.dart';
 import 'package:receivesharing/constants/file_constants.dart';
+import 'package:receivesharing/extension/scaffold_extension.dart';
+import 'package:receivesharing/ui/home/model/user_detail_model.dart';
 import 'package:receivesharing/widget/empty_view.dart';
 
 import '../model/media_preview_item.dart';
 
 class SharingMediaPreviewScreen extends StatefulWidget {
+  final List<UserDetailModel> userList;
   final List<File> files;
-  SharingMediaPreviewScreen({required this.files});
+  SharingMediaPreviewScreen({required this.userList, required this.files});
   @override
   _SharingMediaPreviewScreenState createState() =>
       _SharingMediaPreviewScreenState();
@@ -56,24 +59,28 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: _galleryItems.isNotEmpty
-            ? Column(
-                children: [
-                  SizedBox(height: 5),
-                  _fullMediaPreview(context),
-                  _fileName(context),
-                  _addCaptionPreview(context),
-                  _horizontalMediaFilesView(context)
-                ],
-              )
-            : EmptyView(
-                topLine: "No Files are here..",
-                bottomLine: "Select Files From Gallery Or File Manager",
-              ),
-      ),
-    );
+    return _galleryItems.isNotEmpty
+        ? Column(
+            children: [
+              SizedBox(height: 5),
+              _fullMediaPreview(context),
+              _fileName(context),
+              _addCaptionPreview(context),
+              _horizontalMediaFilesView(context)
+            ],
+          ).generalScaffold(
+            context: context,
+            appTitle: "Send to...",
+            files: widget.files,
+            userList: widget.userList)
+        : EmptyView(
+            topLine: "No files are here..",
+            bottomLine: "Select files from gallery or file manager.",
+          ).generalScaffold(
+            context: context,
+            appTitle: "Send to...",
+            files: widget.files,
+            userList: widget.userList);
   }
 
   Widget _fullMediaPreview(BuildContext context) => Expanded(

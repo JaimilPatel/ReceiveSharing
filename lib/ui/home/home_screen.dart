@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:receivesharing/constants/app_constants.dart';
+import 'package:receivesharing/extension/scaffold_extension.dart';
 import 'package:receivesharing/ui/home/user_listing_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,12 +23,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Receive Data Screen",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-      ),
-    );
+    return Center(
+      child: Text("Receive Sharing Files And Send To Multiple Users...",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+    ).generalScaffold(
+        context: context,
+        appTitle: "Receive Sharing Files",
+        isBack: false,
+        files: [],
+        userList: []);
   }
 
   void listenShareMediaFiles(BuildContext context) {
