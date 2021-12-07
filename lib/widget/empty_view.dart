@@ -28,8 +28,7 @@ class EmptyView extends StatelessWidget {
       text!,
       style: TextStyle(
         color: Colors.grey,
-        fontSize: 14,
-        height: 1.4,
+        fontSize: 20,
       ),
     );
   }

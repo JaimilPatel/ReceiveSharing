@@ -11,9 +11,10 @@ import 'package:receivesharing/widget/empty_view.dart';
 import '../model/media_preview_item.dart';
 
 class SharingMediaPreviewScreen extends StatefulWidget {
-  final List<UserDetailModel> userList;
-  final List<File> files;
-  SharingMediaPreviewScreen({required this.userList, required this.files});
+  final List<UserDetailModel>? userList;
+  final List<File>? files;
+  final String? text;
+  SharingMediaPreviewScreen({this.userList, this.files, this.text = ""});
   @override
   _SharingMediaPreviewScreenState createState() =>
       _SharingMediaPreviewScreenState();
@@ -31,7 +32,7 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       setState(() {
         var i = 0;
-        widget.files.forEach((element) {
+        widget.files?.forEach((element) {
           _galleryItems.add(MediaPreviewItem(
               id: i,
               resource: element,
@@ -39,20 +40,6 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
               isSelected: i == 0 ? true : false));
           i++;
         });
-      });
-    });
-  }
-
-  void onPageChanged(int index) {
-    setState(() {
-      var i = 0;
-      _galleryItems.forEach((element) {
-        if (i == index) {
-          _galleryItems[i].isSelected = true;
-        } else {
-          _galleryItems[i].isSelected = false;
-        }
-        i++;
       });
     });
   }
@@ -73,14 +60,20 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
             appTitle: "Send to...",
             files: widget.files,
             userList: widget.userList)
-        : EmptyView(
-            topLine: "No files are here..",
-            bottomLine: "Select files from gallery or file manager.",
-          ).generalScaffold(
-            context: context,
-            appTitle: "Send to...",
-            files: widget.files,
-            userList: widget.userList);
+        : widget.text!.isNotEmpty
+            ? _sharedTextView(context).generalScaffold(
+                context: context,
+                appTitle: "Send to...",
+                files: widget.files,
+                userList: widget.userList)
+            : EmptyView(
+                topLine: "No files are here..",
+                bottomLine: "Select files from gallery or file manager.",
+              ).generalScaffold(
+                context: context,
+                appTitle: "Send to...",
+                files: widget.files,
+                userList: widget.userList);
   }
 
   Widget _fullMediaPreview(BuildContext context) => Expanded(
@@ -181,20 +174,7 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: () {
-                        setState(() {
-                          var i = 0;
-                          _galleryItems.forEach((element) {
-                            if (i == index) {
-                              _galleryItems[i].isSelected = true;
-                            } else {
-                              _galleryItems[i].isSelected = false;
-                            }
-                            i++;
-                          });
-                        });
-                        _pageController.animateToPage(index,
-                            duration: Duration(milliseconds: 400),
-                            curve: Curves.easeIn);
+                        _onTapHorizontalMedia(context, index);
                       },
                       child: Container(
                           decoration: BoxDecoration(
@@ -221,5 +201,47 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
             )
           : SizedBox();
 
-  void _onSharingTap(BuildContext context) {}
+  void _onTapHorizontalMedia(BuildContext context, int index) {
+    setState(() {
+      var i = 0;
+      _galleryItems.forEach((element) {
+        if (i == index) {
+          _galleryItems[i].isSelected = true;
+        } else {
+          _galleryItems[i].isSelected = false;
+        }
+        i++;
+      });
+    });
+    _pageController.animateToPage(index,
+        duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+  }
+
+  Widget _sharedTextView(BuildContext context) =>
+      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Text(
+          "Shared text here...",
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 20,
+          ),
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(children: [
+              Text(widget.text!, style: TextStyle(fontSize: 20)),
+              Spacer(),
+              GestureDetector(
+                  onTap: () {
+                    _onSharingTap(context);
+                  },
+                  child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Image.asset(FileConstants.icSend, scale: 2.7)))
+            ]))
+      ]);
+
+  void _onSharingTap(BuildContext context) {
+    //You can use this method to share media file or text based on your requirements
+  }
 }

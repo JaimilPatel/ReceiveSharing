@@ -24,9 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Receive Sharing Files And Send To Multiple Users...",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Text("Receive Sharing Files And Send To Multiple Users...",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, color: Colors.grey)),
+      ),
     ).generalScaffold(
         context: context,
         appTitle: "Receive Sharing Files",
@@ -77,13 +80,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
       });
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => UserListingScreen(files: newFiles)));
+          builder: (context) => UserListingScreen(
+                files: newFiles,
+                text: "",
+              )));
     }
   }
 
   void navigateToShareText(BuildContext context, String? value) {
     if (value != null && value.toString().isNotEmpty) {
-      debugPrint(value);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserListingScreen(
+                files: [],
+                text: value,
+              )));
     }
   }
 }

@@ -12,7 +12,8 @@ extension ScaffoldExtension on Widget {
       bool isBack = true,
       bool isShowFab = false,
       List<UserDetailModel>? userList,
-      required List<File> files}) {
+      List<File>? files,
+      String? sharedText}) {
     return Scaffold(
         appBar: AppBar(
             shape: RoundedRectangleBorder(
@@ -41,19 +42,30 @@ extension ScaffoldExtension on Widget {
           child: this,
         ),
         floatingActionButton: isShowFab
-            ? FloatingActionButton(
-                onPressed: () {
-                  List<UserDetailModel> selectedUsers = [];
-                  for (var user in userList!) {
-                    if (user.isSelected) {
-                      selectedUsers.add(user);
-                    }
-                  }
-                  Navigator.of(context!).push(MaterialPageRoute(
-                      builder: (context) => SharingMediaPreviewScreen(
-                          files: files, userList: selectedUsers)));
-                },
-                child: Image.asset(FileConstants.icShareMedia))
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: FloatingActionButton(
+                    backgroundColor: Color(0xff003664),
+                    onPressed: () {
+                      List<UserDetailModel> selectedUsers = [];
+                      for (var user in userList!) {
+                        if (user.isSelected) {
+                          selectedUsers.add(user);
+                        }
+                      }
+                      Navigator.of(context!).push(MaterialPageRoute(
+                          builder: (context) => SharingMediaPreviewScreen(
+                              files: files,
+                              userList: selectedUsers,
+                              text: sharedText ?? "")));
+                    },
+                    child: Image.asset(
+                      FileConstants.icShareMedia,
+                      height: 30,
+                      width: 30,
+                      color: Colors.white,
+                    )),
+              )
             : SizedBox());
   }
 }
