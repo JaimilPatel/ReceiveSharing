@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:receivesharing/constants/app_constants.dart';
+import 'package:receivesharing/constants/color_constants.dart';
+import 'package:receivesharing/constants/dimens_constants.dart';
+import 'package:receivesharing/constants/font_size_constants.dart';
 import 'package:receivesharing/extension/scaffold_extension.dart';
 import 'package:receivesharing/ui/home/user_listing_screen.dart';
 
@@ -25,10 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(
+            horizontal: DimensionConstants.horizontalPadding10),
         child: Text("Receive Sharing Files And Send To Multiple Users...",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, color: Colors.grey)),
+            style: TextStyle(
+                fontSize: FontSizeWeightConstants.fontSize20,
+                color: ColorConstants.greyColor)),
       ),
     ).generalScaffold(
         context: context,
@@ -38,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userList: []);
   }
 
+  //All listeners to listen Sharing media files & text
   void listenShareMediaFiles(BuildContext context) {
     // For sharing images coming from outside the app
     // while the app is in the memory

@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:receivesharing/constants/app_constants.dart';
+import 'package:receivesharing/constants/color_constants.dart';
+import 'package:receivesharing/constants/dimens_constants.dart';
 import 'package:receivesharing/constants/file_constants.dart';
+import 'package:receivesharing/constants/font_size_constants.dart';
 import 'package:receivesharing/extension/scaffold_extension.dart';
 import 'package:receivesharing/ui/home/model/user_detail_model.dart';
 import 'package:receivesharing/widget/empty_view.dart';
@@ -49,7 +52,7 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
     return _galleryItems.isNotEmpty
         ? Column(
             children: [
-              SizedBox(height: 5),
+              SizedBox(height: DimensionConstants.sizedBoxHeight5),
               _fullMediaPreview(context),
               _fileName(context),
               _addCaptionPreview(context),
@@ -110,95 +113,89 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
   }
 
   Widget _fileName(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(DimensionConstants.padding8),
         child: Text(
             "${_galleryItems[_initialIndex].resource!.path.split('/').last}"),
       );
 
-  Widget _addCaptionPreview(BuildContext context) => Row(
-        children: [
-          Expanded(
+  Widget _addCaptionPreview(BuildContext context) => Row(children: [
+        Expanded(
             child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, right: 20.0, top: 10.0),
-              child: TextFormField(
-                controller: _galleryItems[_initialIndex].controller,
-                textInputAction: TextInputAction.done,
-                focusNode: FocusNode(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal),
-                decoration: InputDecoration(
-                    hintText: "Add Caption",
-                    hintStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal),
-                    filled: true,
-                    fillColor: Color(0xffF5F5F5),
-                    counter: Offstage(),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
-                    border: InputBorder.none),
-                onFieldSubmitted: (value) {},
-                keyboardType: TextInputType.text,
-                onTap: () {},
-              ),
-            ),
-          ),
-          GestureDetector(
+                padding: const EdgeInsets.only(
+                    left: DimensionConstants.leftPadding15,
+                    right: DimensionConstants.rightPadding20,
+                    top: DimensionConstants.topPadding10),
+                child: TextFormField(
+                    controller: _galleryItems[_initialIndex].controller,
+                    textInputAction: TextInputAction.done,
+                    focusNode: FocusNode(),
+                    style: TextStyle(
+                        color: ColorConstants.blackColor,
+                        fontSize: FontSizeWeightConstants.fontSize14,
+                        fontWeight: FontSizeWeightConstants.fontWeightNormal),
+                    decoration: InputDecoration(
+                        hintText: "Add Caption",
+                        hintStyle: TextStyle(
+                            color: ColorConstants.blackColor,
+                            fontSize: FontSizeWeightConstants.fontSize14,
+                            fontWeight:
+                                FontSizeWeightConstants.fontWeightNormal),
+                        filled: true,
+                        fillColor: ColorConstants.offWhiteColor,
+                        counter: Offstage(),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: DimensionConstants.horizontalPadding5),
+                        border: InputBorder.none),
+                    onFieldSubmitted: (value) {},
+                    keyboardType: TextInputType.text,
+                    onTap: () {}))),
+        GestureDetector(
             onTap: () {
               _onSharingTap(context);
             },
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Image.asset(
-                FileConstants.icSend,
-                scale: 2.7,
-              ),
-            ),
-          ),
-        ],
-      );
+                padding: const EdgeInsets.only(
+                    bottom: DimensionConstants.bottomPadding8),
+                child: Image.asset(FileConstants.icSend, scale: 2.7)))
+      ]);
 
   Widget _horizontalMediaFilesView(BuildContext context) =>
       (MediaQuery.of(context).viewInsets.bottom == 0)
           ? Container(
-              height: 60,
-              margin: const EdgeInsets.only(left: 15.0, bottom: 10, top: 5),
+              height: DimensionConstants.containerHeight60,
+              margin: const EdgeInsets.only(
+                  left: DimensionConstants.leftPadding15,
+                  bottom: DimensionConstants.bottomPadding10,
+                  top: DimensionConstants.topPadding5),
               child: ListView.separated(
-                itemCount: _galleryItems.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(width: 10);
-                },
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                      onTap: () {
-                        _onTapHorizontalMedia(context, index);
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: _galleryItems[index].isSelected
-                                      ? Colors.grey
-                                      : Colors.white,
-                                  width: 1.0)),
-                          child: AppConstants.imageExtensions.contains(
-                                  _galleryItems[index]
-                                      .resource
-                                      ?.path
-                                      .split('.')
-                                      .last
-                                      .toLowerCase())
-                              ? Image.file(
-                                  File(_galleryItems[index].resource!.path))
-                              : Image.asset(
-                                  FileConstants.icFile,
-                                )));
-                },
-                scrollDirection: Axis.horizontal,
-              ),
-            )
+                  itemCount: _galleryItems.length,
+                  separatorBuilder: (context, index) {
+                    return SizedBox(width: DimensionConstants.sizedBoxWidth10);
+                  },
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () {
+                          _onTapHorizontalMedia(context, index);
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: _galleryItems[index].isSelected
+                                        ? ColorConstants.greyColor
+                                        : ColorConstants.whiteColor,
+                                    width: 1.0)),
+                            child: AppConstants.imageExtensions.contains(
+                                    _galleryItems[index]
+                                        .resource
+                                        ?.path
+                                        .split('.')
+                                        .last
+                                        .toLowerCase())
+                                ? Image.file(
+                                    File(_galleryItems[index].resource!.path))
+                                : Image.asset(FileConstants.icFile)));
+                  },
+                  scrollDirection: Axis.horizontal))
           : SizedBox();
 
   void _onTapHorizontalMedia(BuildContext context, int index) {
@@ -219,24 +216,25 @@ class _SharingMediaPreviewScreenState extends State<SharingMediaPreviewScreen> {
 
   Widget _sharedTextView(BuildContext context) =>
       Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        Text(
-          "Shared text here...",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 20,
-          ),
-        ),
+        Text("Shared text here...",
+            style: TextStyle(
+                color: ColorConstants.greyColor,
+                fontSize: FontSizeWeightConstants.fontSize20)),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(
+                horizontal: DimensionConstants.horizontalPadding10),
             child: Row(children: [
-              Text(widget.text!, style: TextStyle(fontSize: 20)),
+              Text(widget.text!,
+                  style:
+                      TextStyle(fontSize: FontSizeWeightConstants.fontSize20)),
               Spacer(),
               GestureDetector(
                   onTap: () {
                     _onSharingTap(context);
                   },
                   child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(
+                          bottom: DimensionConstants.bottomPadding8),
                       child: Image.asset(FileConstants.icSend, scale: 2.7)))
             ]))
       ]);

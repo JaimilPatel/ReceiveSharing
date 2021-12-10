@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:receivesharing/constants/color_constants.dart';
+import 'package:receivesharing/constants/dimens_constants.dart';
+import 'package:receivesharing/constants/font_size_constants.dart';
 import 'package:receivesharing/extension/scaffold_extension.dart';
 import 'package:receivesharing/ui/home/model/user_detail_model.dart';
 
@@ -47,45 +50,55 @@ class _UserListingScreenState extends State<UserListingScreen> {
       child: ListView.builder(
           itemCount: _userNames.length,
           itemBuilder: (context, index) {
-            return Card(
-              elevation: 3,
-              child: ListTile(
-                selected: _userNames[index].isSelected,
-                selectedTileColor: Color(0xff003664),
-                dense: true,
-                onTap: () {
-                  _onListTileTap(index);
-                },
-                leading: CircleAvatar(
-                    backgroundColor: _userNames[index].isSelected
-                        ? Colors.white
-                        : Color(0xff003664),
-                    child: Text(
-                      _userNames[index].name!.substring(0, 1),
-                      style: TextStyle(
-                          color: _userNames[index].isSelected
-                              ? Color(0xff003664)
-                              : Colors.white),
-                    )),
-                title: Text(_userNames[index].name!,
-                    style: TextStyle(
-                        color: _userNames[index].isSelected
-                            ? Colors.white
-                            : Color(0xff003664))),
-                subtitle: Text(_userNames[index].email!,
-                    style: TextStyle(color: Colors.grey)),
-              ),
-            );
+            return _userListItemView(context, index);
           }));
+
+  Widget _userListItemView(BuildContext context, int index) => Card(
+        elevation: 3,
+        child: ListTile(
+          selected: _userNames[index].isSelected,
+          selectedTileColor: ColorConstants.primaryColor,
+          dense: true,
+          onTap: () {
+            _onListTileTap(index);
+          },
+          leading: _leadingCircularView(index),
+          title: _titleView(index),
+          subtitle: _subTitleView(index),
+        ),
+      );
+
+  Widget _leadingCircularView(int index) => CircleAvatar(
+      backgroundColor: _userNames[index].isSelected
+          ? ColorConstants.whiteColor
+          : ColorConstants.primaryColor,
+      child: Text(
+        _userNames[index].name!.substring(0, 1),
+        style: TextStyle(
+            color: _userNames[index].isSelected
+                ? ColorConstants.primaryColor
+                : ColorConstants.whiteColor),
+      ));
+
+  Widget _titleView(int index) => Text(_userNames[index].name!,
+      style: TextStyle(
+          color: _userNames[index].isSelected
+              ? ColorConstants.whiteColor
+              : ColorConstants.primaryColor));
+
+  Widget _subTitleView(int index) => Text(_userNames[index].email!,
+      style: TextStyle(color: ColorConstants.greyColor));
 
   Widget _selectedUserListingView(BuildContext context) => (_selectedNames
           .isNotEmpty)
       ? Container(
-          height: 50,
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          height: DimensionConstants.containerHeight50,
+          decoration:
+              BoxDecoration(color: ColorConstants.whiteColor, boxShadow: [
             BoxShadow(offset: Offset(0, -3), blurRadius: 5, color: Colors.grey)
           ]),
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(
+              horizontal: DimensionConstants.horizontalPadding10),
           child: ListView.builder(
               itemCount: _selectedNames.length,
               scrollDirection: Axis.horizontal,
@@ -94,7 +107,9 @@ class _UserListingScreenState extends State<UserListingScreen> {
                     child: Text(
                         "${"${_selectedNames[index]}"}${index == _selectedNames.length - 1 ? "" : " , "}",
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)));
+                            fontSize: FontSizeWeightConstants.fontSize14,
+                            fontWeight:
+                                FontSizeWeightConstants.fontWeight500)));
               }))
       : SizedBox();
 

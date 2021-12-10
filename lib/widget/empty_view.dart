@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:receivesharing/constants/color_constants.dart';
+import 'package:receivesharing/constants/dimens_constants.dart';
+import 'package:receivesharing/constants/font_size_constants.dart';
 
 class EmptyView extends StatelessWidget {
   final String topLine;
@@ -9,27 +12,22 @@ class EmptyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 34.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _getText(text: topLine),
-            _getText(text: bottomLine),
-          ],
-        ),
-      ),
-    );
+        padding: EdgeInsets.symmetric(
+            horizontal: DimensionConstants.horizontalPadding34),
+        child: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              _getText(text: topLine),
+              _getText(text: bottomLine)
+            ])));
   }
 
   Widget _getText({String? text}) {
-    return Text(
-      text!,
-      style: TextStyle(
-        color: Colors.grey,
-        fontSize: 20,
-      ),
-    );
+    return Text(text!,
+        style: TextStyle(
+            color: ColorConstants.greyColor,
+            fontSize: FontSizeWeightConstants.fontSize20));
   }
 }
