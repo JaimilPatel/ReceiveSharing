@@ -1,6 +1,6 @@
 # Receive Sharing Files To Flutter App Through Other Apps
 <b>Receive sharing photos, videos, text, URLs, or any other file types from another app.</b><br> 
-<b>Visit :</b> https://medium.com/@jaimil.dev8819/receive-sharing-files-to-flutter-app-through-other-apps-23468a31e6b2
+<b>Visit :</b> https://medium.com/flutter-community/receive-sharing-files-to-flutter-app-from-another-app-7a84c0c0cd88
 
 <b>You can see whole implementation in below images & videos.</b>
 
